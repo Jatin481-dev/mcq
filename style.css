@@ -1,0 +1,177 @@
+/* General Styles */
+body {
+    font-family: 'Poppins', sans-serif;
+    background: #f3f4f6;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+header {
+    background: linear-gradient(45deg, #0061f2, #00c6ff);
+    color: white;
+    text-align: center;
+    padding: 40px 20px;
+    border-bottom: 5px solid #003f8c;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+header h1 {
+    font-size: 3rem;
+    letter-spacing: 2px;
+    margin: 0;
+    animation: fadeIn 1.5s ease-out;
+}
+
+/* Main Content Styles */
+main {
+    max-width: 700px;
+    margin: 40px auto;
+    background: white;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    transform: translateY(30px);
+    opacity: 0;
+    animation: slideUp 0.8s forwards ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(30px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+label {
+    font-size: 1.1rem;
+    color: #333;
+    margin-bottom: 10px;
+    display: block;
+    font-weight: 600;
+}
+
+input,
+button {
+    width: 100%;
+    padding: 12px;
+    margin-top: 10px;
+    border: 2px solid #d1d5db;
+    border-radius: 8px;
+    box-sizing: border-box;
+    font-size: 1rem;
+    outline: none;
+    transition: all 0.3s ease-in-out;
+}
+
+input:focus,
+button:focus {
+    border-color: #00c6ff;
+    box-shadow: 0 0 5px rgba(0, 196, 255, 0.7);
+}
+
+button {
+    background: linear-gradient(45deg, #0061f2, #00c6ff);
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-weight: 700;
+    transition: background 0.3s ease;
+}
+
+button:hover {
+    background: linear-gradient(45deg, #0051a1, #0090d3);
+}
+
+button:active {
+    transform: scale(0.98);
+}
+
+#mcq-container {
+    margin-top: 40px;
+}
+
+.mcq {
+    background: #e0f7fa;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease-in-out;
+    transform: scale(1);
+}
+
+.mcq:hover {
+    transform: scale(1.02);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+}
+
+.mcq b {
+    font-size: 1.2rem;
+    color: #333;
+}
+
+.mcq ul {
+    list-style-type: none;
+    padding: 0;
+    margin-top: 10px;
+}
+
+.mcq li {
+    padding: 8px;
+    background: #fff;
+    margin: 5px 0;
+    border-radius: 5px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease;
+}
+
+.mcq li:hover {
+    background-color: #00c6ff;
+    color: white;
+}
+
+.mcq i {
+    display: block;
+    margin-top: 15px;
+    color: #2c3e50;
+    font-style: italic;
+}
+
+/* Form Section */
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    margin-bottom: 20px;
+}
+
+/* Mobile Responsive Styles */
+@media (max-width: 600px) {
+    header h1 {
+        font-size: 2rem;
+    }
+
+    main {
+        padding: 20px;
+    }
+
+    input,
+    button {
+        font-size: 0.9rem;
+    }
+}
+s

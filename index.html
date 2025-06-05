@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz & MCQ Generator | AI Powered</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Animate.css -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(120deg, #e0eafc 0%, #cfdef3 100%);
+            min-height: 100vh;
+        }
+
+        header {
+            background: linear-gradient(90deg, #00b4d8, #00c6ff);
+            color: white;
+            text-align: center;
+            padding: 40px 0 20px 0;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            border-radius: 0 0 40px 40px;
+            margin-bottom: 40px;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            margin-bottom: 0;
+        }
+
+        .container-xl {
+            max-width: 900px;
+        }
+
+        .card {
+            border: none;
+            border-radius: 18px;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.12);
+            margin-bottom: 32px;
+            background: rgba(255, 255, 255, 0.95);
+            transition: transform 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-6px) scale(1.01);
+            box-shadow: 0 16px 40px 0 rgba(31, 38, 135, 0.18);
+        }
+
+        .card-title {
+            font-weight: 600;
+            font-size: 1.6rem;
+            color: #00b4d8;
+        }
+
+        .form-select,
+        .form-control {
+            border-radius: 8px;
+        }
+
+        .btn-main {
+            background: linear-gradient(90deg, #00b4d8, #00c6ff);
+            color: #fff;
+            font-weight: 600;
+            border: none;
+            border-radius: 8px;
+            padding: 10px 28px;
+            transition: background 0.2s, box-shadow 0.2s;
+            box-shadow: 0 2px 8px rgba(0, 180, 216, 0.08);
+        }
+
+        .btn-main:hover {
+            background: linear-gradient(90deg, #00c6ff, #00b4d8);
+            color: #fff;
+            box-shadow: 0 4px 16px rgba(0, 180, 216, 0.18);
+        }
+
+        .option {
+            background: #f0f4f8;
+            border-radius: 8px;
+            padding: 12px 18px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.2s;
+            border: 2px solid transparent;
+        }
+
+        .option.selected,
+        .option:hover {
+            background: #00b4d8;
+            color: #fff;
+            border-color: #00b4d8;
+            transform: scale(1.03);
+        }
+
+        .result {
+            margin-top: 30px;
+            padding: 24px;
+            background: linear-gradient(90deg, #43e97b 0%, #38f9d7 100%);
+            color: #222;
+            border-radius: 12px;
+            font-size: 1.3rem;
+            font-weight: 600;
+            box-shadow: 0 4px 16px rgba(67, 233, 123, 0.10);
+            text-align: center;
+        }
+
+        .result.wrong {
+            background: linear-gradient(90deg, #ff5858 0%, #f09819 100%);
+            color: #fff;
+        }
+
+        .animate__animated {
+            animation-duration: 0.7s;
+        }
+
+        .mcq-list li {
+            background: #f8fafc;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            padding: 10px 16px;
+            box-shadow: 0 1px 4px rgba(0, 180, 216, 0.06);
+        }
+
+        @media (max-width: 600px) {
+            header {
+                padding: 24px 0 12px 0;
+            }
+
+            .container-xl {
+                padding: 0 8px;
+            }
+
+            .card {
+                padding: 10px;
+            }
+        }
+        .btn-main a {
+            color: #fff;
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body>
+    <header class="animate__animated animate__fadeInDown">
+        <h1>AI Quiz & MCQ Generator</h1>
+        <p class="lead mb-0">Powered by API | Beautiful, Animated, Professional UI</p>
+    </header>
+    <div class="container-xl mt-4">
+        <!-- Quiz Section -->
+        <div class="card animate__animated animate__fadeInLeft" id="quiz-section">
+            <div class="card-body">
+                <h2 class="card-title mb-3">Take a Quiz</h2>
+                <div class="row g-3 align-items-end">
+                    <div class="col-md-4">
+                        <label for="quiz-topic" class="form-label">Topic</label>
+                        <input type="text" class="form-control" id="quiz-topic" placeholder="e.g. Physics"
+                            value="">
+                    </div>
+                    <div class="col-md-4">
+                        <label for="quiz-difficulty" class="form-label">Difficulty</label>
+                        <select id="quiz-difficulty" class="form-select">
+                            <option value="easy">Easy</option>
+                            <option value="medium">Medium</option>
+                            <option value="hard">Hard</option>
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <label for="quiz-num" class="form-label">Questions</label>
+                        <input type="number" class="form-control" id="quiz-num" min="1" max="10" value="5">
+                    </div>
+                    <div class="col-md-2 d-grid">
+                        <button class="btn btn-main" id="start-quiz-btn">Start Quiz</button>
+                    </div>
+                </div>
+                <div id="quiz-display" class="mt-4"></div>
+                <div class="result mt-4" id="result" style="display:none;"></div>
+            </div>
+        </div>
+        <!-- MCQ Generator Section -->
+        <div class="card animate__animated animate__fadeInRight" id="mcq-generator-section">
+            <div class="card-body">
+                <h2 class="card-title mb-3">MCQ Generator</h2>
+                <button class="btn btn-main mb-3" id="generate-mcq"><a href="all.html">Create Your Own MCQ</a>
+</button>
+            </div>
+        </div>
+    </div>
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Animate.css (already included above) -->
+    <script>
+        // Quiz Section
+        const startQuizBtn = document.getElementById('start-quiz-btn');
+        const quizContainer = document.getElementById('quiz-display');
+        const resultContainer = document.getElementById('result');
+        let quizData = [];
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let userAnswers = [];
+
+        startQuizBtn.addEventListener('click', async function () {
+            const topic = document.getElementById('quiz-topic').value.trim() || "General Knowledge";
+            const difficulty = document.getElementById('quiz-difficulty').value;
+            const numQuestions = document.getElementById('quiz-num').value || 5;
+
+            quizContainer.innerHTML = `<div class="text-center my-4"><div class="spinner-border text-info" role="status"></div><br>Loading quiz...</div>`;
+            resultContainer.style.display = "none";
+            score = 0; currentQuestionIndex = 0; userAnswers = [];
+
+            // --- API CALL (replace with your API if needed) ---
+            // Example: Using Open Trivia DB for demo (replace with your Groq/OpenAI API for real AI MCQs)
+            // --- API CALL: Groq AI ---
+            const GROQ_API_KEY = "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"; // yahan apna key dalein
+            const prompt = `Generate ${numQuestions} multiple choice questions (difficulty: ${difficulty}) on "${topic}". Reply ONLY with a JSON array: [{"question": "...", "options": ["A", "B", "C", "D"], "answer": "A"}]`;
+
+            try {
+                const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${GROQ_API_KEY}`
+                    },
+                    body: JSON.stringify({
+                        model: "llama3-70b-8192",
+                        messages: [{ role: "user", content: prompt }],
+                        max_tokens: 1024,
+                        temperature: 0.7
+                    })
+                });
+                const data = await response.json();
+                let content = data.choices[0].message.content.trim();
+                if (content.startsWith("```json")) content = content.replace(/```json|```/g, "").trim();
+                else if (content.startsWith("```")) content = content.replace(/```/g, "").trim();
+                content = content.replace(/,\s*}/g, '}').replace(/,\s*]/g, ']');
+                const arrMatch = content.match(/\[[\s\S]*\]/);
+                quizData = arrMatch ? JSON.parse(arrMatch[0]) : JSON.parse(content);
+                showQuizQuestion();
+            } catch (error) {
+                quizContainer.innerHTML = `<div class="alert alert-danger">Failed to fetch quiz data.</div>`;
+            }
+        });
+
+        function showQuizQuestion() {
+            const q = quizData[currentQuestionIndex];
+            quizContainer.innerHTML = `
+                <div class="question animate__animated animate__fadeIn">${q.question}</div>
+                <div id="quiz-options"></div>
+                <button class="btn btn-main mt-3" id="next-question-btn">${currentQuestionIndex === quizData.length - 1 ? "Finish" : "Next"}</button>
+            `;
+            const optsDiv = document.getElementById('quiz-options');
+            q.options.forEach(opt => {
+                const div = document.createElement('div');
+                div.className = 'option animate__animated animate__fadeInUp';
+                div.innerHTML = `<input type="radio" name="answer" value="${opt}" style="margin-right:10px;">${opt}`;
+                div.onclick = () => {
+                    document.querySelectorAll('.option').forEach(d => d.classList.remove('selected'));
+                    div.classList.add('selected');
+                    div.querySelector('input').checked = true;
+                };
+                optsDiv.appendChild(div);
+            });
+            document.getElementById('next-question-btn').onclick = handleNextQuestion;
+        }
+
+        function handleNextQuestion() {
+            const selected = document.querySelector('input[name="answer"]:checked');
+            if (!selected) {
+                alert("Please select an option!");
+                return;
+            }
+            userAnswers[currentQuestionIndex] = selected.value;
+            if (selected.value === quizData[currentQuestionIndex].answer) score++;
+            currentQuestionIndex++;
+            if (currentQuestionIndex < quizData.length) {
+                showQuizQuestion();
+            } else {
+                showQuizResult();
+            }
+        }
+
+        function showQuizResult() {
+            quizContainer.innerHTML = "";
+            resultContainer.style.display = "block";
+            resultContainer.classList.add("animate__animated", "animate__fadeInUp");
+            resultContainer.innerHTML = `<span class="display-6">Your Score: ${score} / ${quizData.length}</span>
+                <br><button class="btn btn-main mt-3" onclick="window.location.reload()">Restart</button>`;
+        }
+
+        // Utility: Shuffle array
+        function shuffle(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+        // Utility: Decode HTML entities
+        function decodeHTMLEntities(text) {
+            var txt = document.createElement("textarea");
+            txt.innerHTML = text;
+            return txt.value;
+        }
+
+        // MCQ Generator Section
+        const mcqForm = document.getElementById('mcq-form');
+        const generateMcqBtn = document.getElementById('generate-mcq');
+        const generatedQuestionsList = document.getElementById('generated-questions');
+        let generatedQuestions = [];
+
+        generateMcqBtn.addEventListener('click', function () {
+            mcqForm.style.display = mcqForm.style.display === "none" ? "block" : "none";
+            mcqForm.classList.add("animate__animated", "animate__fadeInDown");
+        });
+
+        mcqForm.addEventListener('submit', function (event) {
+            event.preventDefault();
+            const question = document.getElementById('question').value;
+            const optionA = document.getElementById('optionA').value;
+            const optionB = document.getElementById('optionB').value;
+            const optionC = document.getElementById('optionC').value;
+            const optionD = document.getElementById('optionD').value;
+            const correctAnswer = document.getElementById('correctAnswer').value;
+            const newQuestion = {
+                question,
+                options: [optionA, optionB, optionC, optionD],
+                correctAnswer
+            };
+            generatedQuestions.push(newQuestion);
+            updateGeneratedQuestionsList();
+            mcqForm.reset();
+            mcqForm.style.display = 'none';
+        });
+
+        function updateGeneratedQuestionsList() {
+            generatedQuestionsList.innerHTML = '';
+            generatedQuestions.forEach((item, index) => {
+                const li = document.createElement('li');
+                li.innerHTML = `
+                    <strong>${item.question}</strong><br>
+                    <span class="text-primary">A.</span> ${item.options[0]}<br>
+                    <span class="text-primary">B.</span> ${item.options[1]}<br>
+                    <span class="text-primary">C.</span> ${item.options[2]}<br>
+                    <span class="text-primary">D.</span> ${item.options[3]}<br>
+                    <span class="text-success">Correct: ${item.correctAnswer}</span>
+                `;
+                generatedQuestionsList.appendChild(li);
+            });
+        }
+    </script>
+</body>
+
+</html>
